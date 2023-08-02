@@ -1,0 +1,8 @@
+# Customize this line to where you have installed svunit.
+# For me it's next to the svlib repository:
+pushd ../../../svunit/ >/dev/null
+source Setup.bsh
+popd
+export SVUNIT_USER_INCDIR=../src
+
+# end
