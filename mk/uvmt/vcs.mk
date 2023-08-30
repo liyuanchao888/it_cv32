@@ -115,6 +115,15 @@ VCS_USER_COMPILE_ARGS += $(VCS_ELAB_COV)
 VCS_RUN_COV_FLAGS += $(VCS_RUN_COV)
 endif
 
+ifeq ($(WAVES_TYPE),fsdb)
+VCS_USER_COMPILE_ARGS += -debug_access+all \
+		-debug_region=cell+lib -kdb \
+		+vcs+flush+all \
+		+define+DUMP_FSDB
+endif
+
+
+
 # list all vbd files
 COV_RESULTS_LIST = $(wildcard $(SIM_RESULTS)/*/*.vdb)
 
@@ -155,6 +164,9 @@ VCS_RUN_FLAGS        += $(VCS_RUN_BASE_FLAGS)
 VCS_RUN_FLAGS        += $(VCS_RUN_WAVES_FLAGS)
 VCS_RUN_FLAGS        += $(VCS_RUN_COV_FLAGS)
 VCS_RUN_FLAGS        += $(USER_RUN_FLAGS)
+ifeq ($(WAVES_TYPE),fsdb)
+VCS_RUN_FLAGS += +fsdbfile=${SIM_CFG_RESULTS}/${TEST_NAME}/${TEST_NAME}_${RNDSEED}.fsdb +vcs+flush+all
+endif
 
 # Special var to point to tool and installation dependent path of DPI headers.
 # Used to recompile dpi_dasm_spike if needed (by default, not needed).
@@ -190,6 +202,7 @@ VCS_COMP = $(VCS_COMP_FLAGS) \
 		$(UVM_PLUSARGS)
 
 comp: mk_vcs_dir $(CV_CORE_PKG) $(SVLIB_PKG) $(OVP_MODEL_DPI)
+	@echo " === ycli mk/uvmt/vcs.mk: make comp : VCS_SIM_PREREQ is ${VCS_SIM_PREREQ}"
 	@echo " === ycli mk/uvmt/vcs.mk: make comp : SIM_CFG_RESULTS is $(SIM_CFG_RESULTS) "
 	@echo " === ycli mk/uvmt/vcs.mk: make comp : DV_SVLIB_PATH is $(DV_SVLIB_PATH) "
 	cd $(SIM_CFG_RESULTS) && $(VCS) $(VCS_COMP) -top uvmt_$(CV_CORE_LC)_tb
@@ -199,10 +212,12 @@ comp: mk_vcs_dir $(CV_CORE_PKG) $(SVLIB_PKG) $(OVP_MODEL_DPI)
 	@echo "$(BANNER)"
 
 ifneq ($(call IS_NO,$(COMP)),NO)
+$(info "====== ycli :mk/uvmt/vcs.mk : comp IS_NO ")
 VCS_SIM_PREREQ = comp
 endif
 
 ifeq ($(call IS_YES,$(VCS_SINGLE_STEP)), YES)
+	$(info "====== ycli : mk/uvmt/vcs.mk : SIGNAL_STEP IS_YES ")
 	VCS_SIM_PREREQ = mk_vcs_dir $(CV_CORE_PKG) $(OVP_MODEL_DPI)
 	VCS_COMP_RUN = $(VCS_COMP) $(VCS_RUN_BASE_FLAGS)
 endif

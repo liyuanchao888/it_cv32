@@ -61,6 +61,7 @@ MKDIR_P = mkdir -p
 
 
 # Compile compile flags for all simulators (careful!)
+WAVES_TYPE   ?= fsdb
 WAVES        ?= 0
 SV_CMP_FLAGS ?= "+define+$(CV_CORE_UC)_ASSERT_ON"
 TIMESCALE    ?= -timescale 1ns/1ps

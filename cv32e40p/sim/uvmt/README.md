@@ -7,4 +7,8 @@ All results (compile logs, waveforms, run logs, simulation databases, etc.) will
 _For directory indepedent execution, please see the makeuvmt utility in the [bin](../../../bin) directory_<br>
 _For instructions on invoking and controlling the _uvmt_ testbench, see the [README in the mk/uvmt directory](../../../mk/uvmt)_<br>
 
+ - run the simulation
 make  test TEST=hello-world USE_ISS=no | tee -a make.log
+
+ - view the waveform 
+verdi -ssf vcs_results/default/hello-world/hello-world_1.fsdb

@@ -600,6 +600,34 @@ module uvmt_cv32e40p_tb;
       //@DVT_LINTER_WAIVER_END "MT20210811_3"
    end
 
+    initial begin
+	    string f;
+        `ifdef INCA
+            $recordvars();
+        `elsif QUESTA
+            $wlfdumpvars();
+            set_config_int("*", "recording_detail", 1);
+        `else  //if no assign simulator , will use the VCS as default
+            `ifdef DUMP_FSDB
+			    `ifndef WAVE_CFG
+        		    $value$plusargs("fsdbfile=%s",f);
+					`ifndef PLL_WAVE_ON
+//					    $fsdbSuppress(test_top.top.u_prcm.u_prcm_pll); //no dump pll to accelerate sim
+				    `endif
+					$fsdbDumpfile(f);
+					$fsdbDumpvars;
+					$fsdbDumpMDA;
+                    `ifdef CR_UPF_ON
+				        $fsdbDumpvars("+power")
+					`endif
+				`endif
+    		`elsif DUMP_VCD
+			    $vcdpluson;
+			`endif
+        `endif
+    end
+
+
 endmodule : uvmt_cv32e40p_tb
 `default_nettype wire
 

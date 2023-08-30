@@ -21,15 +21,6 @@
 # core-v-verif
 Functional verification project for the CORE-V family of RISC-V cores.
 
-
-link is https://docs.openhwgroup.org/projects/core-v-verif/en/latest/quick_start.html
-1. cd  core-v-verif-master/cv32e40p/sim/uvmt
-2. run the simulation 
-```
-make  test TEST=hello-world USE_ISS=no | tee -a make.log
-```
-
-
 <!--
 ## NEWS UPDATES:
 **2021-07-15**: The verificaton environment for the [cv32e40s](https://github.com/openhwgroup/cv32e40s) is up and running.

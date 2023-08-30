@@ -1,0 +1,9 @@
+make test TEST=misalign                   USE_ISS=no | tee -a make_misali.log
+make test TEST=interrupt_test             USE_ISS=no | tee -a make_interr.log
+make test TEST=requested_csr_por          USE_ISS=no | tee -a make_reques.log
+make test TEST=hello-world                USE_ISS=no | tee -a make_hello-.log
+make test TEST=branch_zero                USE_ISS=no | tee -a make_branch.log
+make test TEST=hpmcounter_hazard_test     USE_ISS=no | tee -a make_hpmcou.log
+make test TEST=fibonacci                  USE_ISS=no | tee -a make_fibona.log
+make test TEST=dhrystone                  USE_ISS=no | tee -a make_dhryst.log
+make test TEST=modeled_csr_por            USE_ISS=no | tee -a make_modele.log
